@@ -11,6 +11,11 @@ import org.wesnoth.wesworkshop.entity.WesnothObject;
  */
 @Entity
 @Table(name="attack_special")
+@NamedQueries({
+    @NamedQuery(name="AttackSpecial.findAll", query="SELECT asp FROM AttackSpecial asp")
+    , @NamedQuery(name="AttackSpecial.findById", query="SELECT asp FROM AttackSpecial asp WHERE asp.id = :id")
+    , @NamedQuery(name="AttackSpecial.findByName", query="SELECT asp FROM AttackSpecial asp WHERE asp.name = :name")
+})
 public class AttackSpecial extends WesnothObject implements Serializable {
 
     private String name;

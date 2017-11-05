@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -15,6 +17,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="attack")
+@NamedQueries({
+    @NamedQuery(name="Attack.findAll", query="SELECT a FROM Attack a")
+    , @NamedQuery(name="Attack.findById", query="SELECT a FROM Attack a WHERE a.id = :id")
+    , @NamedQuery(name="Attack.findByName", query="SELECT a FROM Attack a WHERE a.name = :name")
+})
 public class Attack extends WesnothObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,12 +45,12 @@ public class Attack extends WesnothObject implements Serializable {
     /**
      * The icon of the attack, used in the attack frame.
      */
-    @Column(name="icon")
-    private String icon;
+    @JoinColumn(name="icon")
+    private WesnothResource icon;
     /**
      * The range of the attack. Used to determine the enemy's retaliation, which will be of the same type.
      */
-    @Column(name="range")
+    @Column(name="attack_range_id")
     private AttackRange range;
     /**
      * The damage of the attack.
@@ -151,7 +158,7 @@ public class Attack extends WesnothObject implements Serializable {
      * Returns the image (file path) to use as an icon for the attack in the attack choice menu, as a path relative to the images directory. 
      * @return the image to use as an icon for the attack in the attack choice menu, as a path relative to the images directory. 
      */
-    public String getIcon() {
+    public WesnothResource getIcon() {
         return icon;
     }
 
@@ -159,7 +166,7 @@ public class Attack extends WesnothObject implements Serializable {
      * Sets the image to use as an icon for the attack in the attack choice menu, as a path relative to the images directory. 
      * @param icon the icon file path.
      */
-    public void setIcon(String icon) {
+    public void setIcon(WesnothResource icon) {
         this.icon = icon;
     }
 

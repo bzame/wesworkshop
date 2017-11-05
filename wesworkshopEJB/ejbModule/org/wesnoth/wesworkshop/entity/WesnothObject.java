@@ -26,9 +26,21 @@ public abstract class WesnothObject implements Serializable {
 	@ManyToOne(optional=false)
 	@JoinColumn(name="user_id")
 	private User owner;
+	/**
+	 * DB-side creation timestamp.
+	 */
+	@Column(name="created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+	private java.util.Date createdAt;
+	/**
+	 * DB-side last edit timestamp.
+	 */
+	@Column(name="edited_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private java.util.Date editedAt;
 	
 	/**
-     * Returns the unique identifier of this attack-type.
+     * Returns the unique identifier of this object.
      * @return this unique identifier.
      */
     public int getId() {
@@ -60,6 +72,24 @@ public abstract class WesnothObject implements Serializable {
 	}
 	
 	/**
+	 * Returns the DB-side creation timestamp.
+	 * @return DB-side creation timestamp.
+	 */
+	public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+    
+    /**
+     * Returns the DB-side last edit timestamp.
+     * @return DB-side last edit timestamp.
+     */
+
+    public java.util.Date getEditedAt() {
+        return editedAt;
+    }
+    
+
+    /**
 	 * The name of the resource. It will be used, for instance, when displaying the object to the user.
 	 * @return the string name of this object.
 	 */
@@ -108,6 +138,22 @@ public abstract class WesnothObject implements Serializable {
     @Override
     public String toString() {
         return getClass().getName() + " [id=" + id + ", name=" + getName() + "]";
+    }
+    
+    /**
+     * Before persisting the entity, updates its creation timestamp.
+     */
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new java.util.Date();
+    }
+    
+    /**
+     * Before updating the entity, updates its last-edit timestamp.
+     */
+    @PreUpdate
+    protected void onUpdate() {
+        editedAt = new java.util.Date();
     }
    
 }

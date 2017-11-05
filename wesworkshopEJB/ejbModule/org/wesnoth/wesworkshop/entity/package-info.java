@@ -1,8 +1,7 @@
 /**
+ * JPA Entities
  * 
- */
-/**
- * @author bruno
+ * @author Bruno Zamengo
  *
  */
 package org.wesnoth.wesworkshop.entity;
